@@ -1,6 +1,6 @@
 import express from 'express';
-require('./db/mongoose');
 import subscribersRouter from './routes/subscribers';
+require('./db/mongoose');
 
 const app = express();
 
