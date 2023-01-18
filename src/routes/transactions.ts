@@ -1,7 +1,21 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction } from 'express';
 const router = express.Router();
+import { TransactionImpl, default as Transaction } from '../model/transactions';
 
-import Subscriber from '../model/subscriber';
+// Add Transaction
+// router.post("/", async (req, res) => {
+//   try {
+//     const transaction = new Transaction<ITransaction>({
+//       amount: req.body.amount,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+// - Delete Transactions,
+// - Edit transactions
+// - List all transactions
 
 // router.get('/', async (req, res) => {
 // 	try {
@@ -71,6 +85,5 @@ import Subscriber from '../model/subscriber';
 // 	res.subscriber = subscriber;
 // 	next();
 // }
-
 
 export default router;

@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-interface ITransaction {
+export interface TransactionImpl {
   amount: Number;
   currency: String;
   transactionType: String;
@@ -10,29 +10,29 @@ interface ITransaction {
   date: Date;
 }
 
-const transactionSchema = new Schema<ITransaction>({
+const transactionSchema = new Schema<TransactionImpl>({
   amount: {
     type: Number,
     required: true,
     immutable: true,
-    min: [0, "Amount must be positive number"],
+    min: [0, 'Amount must be positive number'],
   },
   currency: {
     type: Schema.Types.ObjectId,
-    ref: "currency",
+    ref: 'currency',
   },
   transactionType: {
     type: String,
     required: true,
-    enum: ["income", "expense"],
+    enum: ['income', 'expense'],
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: "category",
+    ref: 'category',
   },
   vault: {
     type: Schema.Types.ObjectId,
-    ref: "vault",
+    ref: 'vault',
   },
   date: {
     type: Date,
@@ -41,4 +41,7 @@ const transactionSchema = new Schema<ITransaction>({
   },
 });
 
-export default mongoose.model<ITransaction>("Transaction", transactionSchema);
+export default mongoose.model<TransactionImpl>(
+  'Transaction',
+  transactionSchema
+);

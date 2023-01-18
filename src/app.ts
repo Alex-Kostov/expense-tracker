@@ -1,5 +1,5 @@
 import express from 'express';
-import subscribersRouter from './routes/subscribers';
+import subscribersRouter from './routes/transactions';
 require('./db/mongoose');
 
 const app = express();
