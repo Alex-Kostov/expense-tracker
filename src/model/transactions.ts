@@ -1,25 +1,44 @@
 import mongoose from "mongoose";
-// * transactions
-// - id
-// - amount, ( 15,23 )
-// - currency ( ID of BGN DEFAULT )
-// - type, (expense, income)
-// - category id ( 2 )
-// - vault ( ID of the vault we make transations to)
-// - date ( date of the transaction, can be from yestarday )
-// - time created
-// - time updated
+const { Schema } = mongoose;
 
+interface ITransaction {
+  amount: Number;
+  currency: String;
+  transactionType: String;
+  category: String;
+  vault: String;
+  date: Date;
+}
 
-
-const transactionSchema = new mongoose.Schema({
-	amount: {
-		type: Number,
-		required: true,
-		immutable: true,
-		min: [0, 'Amount must be positive number'],
-	},
-	// TODO: Create the rest of the fields
+const transactionSchema = new Schema<ITransaction>({
+  amount: {
+    type: Number,
+    required: true,
+    immutable: true,
+    min: [0, "Amount must be positive number"],
+  },
+  currency: {
+    type: Schema.Types.ObjectId,
+    ref: "currency",
+  },
+  transactionType: {
+    type: String,
+    required: true,
+    enum: ["income", "expense"],
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: "category",
+  },
+  vault: {
+    type: Schema.Types.ObjectId,
+    ref: "vault",
+  },
+  date: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
 });
 
-// export default mongoose.model('Subscriber', subscriberSchema);
+export default mongoose.model<ITransaction>("Transaction", transactionSchema);
