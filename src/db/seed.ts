@@ -33,5 +33,6 @@ const seedDB = async () => {
 }
 
 seedDB().then(() => {
+  console.log('Database populated.');
   return mongoose.connection.close();
 })

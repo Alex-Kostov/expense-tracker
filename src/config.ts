@@ -5,7 +5,7 @@ interface Config {
 }
 
 export const config: Config = {
-  databaseUrl: 'mongodb://127.0.0.1/subscribers',
+  databaseUrl: 'mongodb://127.0.0.1/expenseTracker',
   port: 3000,
   baseCurrency: 'EUR',
 };
