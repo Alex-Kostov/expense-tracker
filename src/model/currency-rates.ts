@@ -13,7 +13,7 @@ const currencySchema = new Schema<CurrencyImpl>({
     trim: true,
     uppercase: true,
     validate(value: string) {
-      if (value.length !== 6) {
+      if (value.length !== 3) {
         throw new Error('Currency code must be 3 characters long');
       }
     },
