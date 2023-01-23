@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import { Schema, Types } from 'mongoose';
+// TODO: Both imports should be with one line.
 
 export interface CurrencyImpl {
   code: String;
   rate: Number;
+  _id?: Types.ObjectId;
+  __v?: number;
 }
 
 const currencySchema = new Schema<CurrencyImpl>({

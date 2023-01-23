@@ -28,9 +28,19 @@ mongoose
     console.log(err)
   })
 
+// TODO: Fix seed
 const seedDB = async () => {
   await Currency.deleteMany({})
-  await Currency.insertMany(seedCurrencies)
+  const resp: CurrencyImpl[] = await Currency.insertMany(seedCurrencies);
+
+  console.log(resp);
+  // TODO: add Types
+  const currenciesMap = resp.reduce((acc: any, currency: any) => {
+    console.log(acc);
+    acc[currency.code] = currency._id;
+    return acc;
+  }, {});
+
 }
 
 seedDB().then(() => {
