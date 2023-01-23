@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { TransactionImpl, default as Transaction } from '../model/transactions'
+import { VaultImpl, default as Vault } from '../model/vaults';
 import { CurrencyImpl, default as Currency } from '../model/currency-rates'
 import { config } from '../config'
 

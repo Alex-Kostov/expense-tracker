@@ -19,7 +19,7 @@ const transactionSchema = new Schema<TransactionImpl>({
   },
   currency: {
     type: Schema.Types.ObjectId,
-    ref: 'currency',
+    ref: 'Currency',
   },
   transactionType: {
     type: String,
@@ -28,11 +28,11 @@ const transactionSchema = new Schema<TransactionImpl>({
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: 'category',
+    ref: 'Category',
   },
   vault: {
     type: Schema.Types.ObjectId,
-    ref: 'vault',
+    ref: 'Vault',
   },
   date: {
     type: Date,
