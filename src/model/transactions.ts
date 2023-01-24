@@ -1,12 +1,13 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import { Schema, Types } from 'mongoose';
+// TODO: Both imports should be with one line.
 
 export interface TransactionImpl {
-  amount: Number;
-  currency: String;
-  transactionType: String;
-  category: String;
-  vault: String;
+  amount: number;
+  currency: Types.ObjectId
+  transactionType: string;
+  category: Types.ObjectId
+  vault: Types.ObjectId
   date: Date;
 }
 

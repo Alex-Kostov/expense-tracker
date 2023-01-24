@@ -31,14 +31,12 @@ mongoose
 // TODO: Fix seed
 const seedDB = async () => {
   await Currency.deleteMany({})
-  const resp: CurrencyImpl[] = await Currency.insertMany(seedCurrencies);
+  const insertedCurrencies: CurrencyImpl[] = await Currency.insertMany(seedCurrencies);
 
-  console.log(resp);
   // TODO: add Types
-  const currenciesMap = resp.reduce((acc: any, currency: any) => {
-    console.log(acc);
-    acc[currency.code] = currency._id;
-    return acc;
+  const currenciesMap = insertedCurrencies.reduce((accumulator: any, currency: CurrencyImpl) => {
+    accumulator[currency.code] = currency._id;
+    return accumulator;
   }, {});
 
 }

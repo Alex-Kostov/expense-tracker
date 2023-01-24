@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
-const { Schema } = mongoose;
+import { Schema, Types } from 'mongoose';
+// TODO: Both imports should be with one line.
 
 export interface VaultImpl {
-  name: String;
-  type: String;
-  currency?: String; // TODO: To be updated.,
+  name: string;
+  type: string;
+  currency: Types.ObjectId;
 }
 
 const vaultSchema = new Schema<VaultImpl>({

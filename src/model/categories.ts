@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 export interface CategoryImpl {
-  name: String;
+  name: string;
 }
 
 const categorySchema = new Schema<CategoryImpl>({ name: String });
