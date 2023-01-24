@@ -4,10 +4,10 @@ import { Schema, Types } from 'mongoose';
 
 export interface TransactionImpl {
   amount: number;
-  currency: Types.ObjectId
+  description?: string;
   transactionType: string;
-  category: Types.ObjectId
-  vault: Types.ObjectId
+  category: string;
+  vault: Types.ObjectId;
   date: Date;
 }
 
@@ -18,9 +18,9 @@ const transactionSchema = new Schema<TransactionImpl>({
     immutable: true,
     min: [0, 'Amount must be positive number'],
   },
-  currency: {
-    type: Schema.Types.ObjectId,
-    ref: 'Currency',
+  description: {
+    type: String,
+    trim: true,
   },
   transactionType: {
     type: String,
@@ -28,8 +28,9 @@ const transactionSchema = new Schema<TransactionImpl>({
     enum: ['income', 'expense'],
   },
   category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
+    type: String,
+    required: true,
+    trim: true,
   },
   vault: {
     type: Schema.Types.ObjectId,
@@ -37,8 +38,7 @@ const transactionSchema = new Schema<TransactionImpl>({
   },
   date: {
     type: Date,
-    required: true,
-    default: Date.now,
+    required: true
   },
 });
 
