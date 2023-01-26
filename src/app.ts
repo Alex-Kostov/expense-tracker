@@ -1,11 +1,12 @@
 import express from 'express';
-import subscribersRouter from './routes/transactions';
+import currenciesRouter from './routes/currencies';
+
 require('./db/mongoose');
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/subscribers', subscribersRouter);
+app.use('/api/v1/currencies', currenciesRouter);
 
 export default app;
