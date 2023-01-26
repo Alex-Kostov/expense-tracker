@@ -1,6 +1,4 @@
-import mongoose from 'mongoose'
-import { Schema, Types } from 'mongoose';
-// TODO: Both imports should be with one line.
+import mongoose, { Schema, Types } from 'mongoose';
 
 export interface VaultImpl {
   name: string;
