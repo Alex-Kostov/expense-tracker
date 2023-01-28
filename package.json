@@ -4,8 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "nodemon ./src/server.ts",
-		"database-reset": "ts-node ./src/db/seed.ts"
+		"dev": "ts-node --files ./src/server.ts",
+		"db-reset": "ts-node ./src/db/seed.ts"
 	},
 	"keywords": [],
 	"author": "",
