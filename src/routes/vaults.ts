@@ -39,6 +39,7 @@ router.get('/:id', getVault, async (req: Request, res: Response): Promise<void> 
 router.post('/', async (req: Request, res: Response): Promise<void> => {
     const vault = new Vault<VaultImpl>({
         name: req.body.name,
+        balance: req.body.balance,
         type: req.body.type,
         currency: req.body.currency,
         // TODO: Update to currencyId
@@ -55,11 +56,17 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
 // Update Vault
 router.patch('/:id', getVault, async (req: Request, res: Response): Promise<any> => {
     if (req.body.name != null) res.vault.name = req.body.name;
+    if (req.body.balance != null) res.vault.balance = req.body.balance;
     if (req.body.type != null) res.vault.type = req.body.type;
     if (req.body.currency != null) res.vault.currency = req.body.currency;
     // TODO : find better validation way.
 
-    if (req.body.name === undefined && req.body.type === undefined && req.body.currency === undefined) {
+    if (
+        req.body.name === undefined &&
+        req.body.balance === undefined &&
+        req.body.type === undefined &&
+        req.body.currency === undefined
+    ) {
         return res.status(400).json({message: 'Nothing to update!'});
     }
 

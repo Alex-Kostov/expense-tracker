@@ -24,21 +24,25 @@ const generateVaultSeed = (currenciesMap: any) => {
   const vaultsSeed: VaultImpl[] = [
     {
       name: 'Unicredit',
+        balance: 150,
       type: 'digital',
       currency: currenciesMap['BGN']._id,
     },
     {
       name: 'Wallet',
+        balance: 250,
       type: 'cash',
       currency: currenciesMap['BGN']._id,
     },
     {
       name: 'Revolut EUR',
+        balance: 100,
       type: 'digital',
       currency: currenciesMap['EUR']._id,
     },
     {
       name: 'Revolut USD',
+        balance: 100,
       type: 'digital',
       currency: currenciesMap['USD']._id,
     },

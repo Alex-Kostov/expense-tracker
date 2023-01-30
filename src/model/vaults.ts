@@ -2,6 +2,7 @@ import mongoose, {Schema, Types} from 'mongoose';
 
 export interface VaultImpl {
     name: string;
+    balance: number;
     type: string;
     currency: Types.ObjectId;
     _id?: Types.ObjectId;
@@ -13,6 +14,11 @@ const vaultSchema = new Schema<VaultImpl>({
         type: String,
         required: true,
         trim: true,
+    },
+    balance: {
+        type: Number,
+        required: true,
+        min: [0, 'You need to have some money in order to create vault :)']
     },
     type: {
         type: String,
