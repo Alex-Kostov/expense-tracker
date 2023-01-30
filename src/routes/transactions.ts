@@ -1,89 +1,92 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, {NextFunction, Request, Response} from 'express';
+import {default as Transaction, TransactionImpl} from '../model/transactions';
+
 const router = express.Router();
-import { TransactionImpl, default as Transaction } from '../model/transactions';
 
-// Add Transaction
-// router.post("/", async (req, res) => {
-//   try {
-//     const transaction = new Transaction<ITransaction>({
-//       amount: req.body.amount,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+const getTransaction = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    try {
+        const findResult = await Transaction.findById(req.params.id);
+        if (findResult === null) {
+            return res.status(404).json({message: 'Cannot find transaction'});
+        }
+        res.transaction = findResult;
+        next();
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
 
-// - Delete Transactions,
-// - Edit transactions
-// - List all transactions
+// Get All Transactions
+router.get('/', async (req: Request, res: Response): Promise<void> => {
+    try {
+        const transactions: TransactionImpl[] = await Transaction.find();
+        res.status(200).json(transactions);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
-// router.get('/', async (req, res) => {
-// 	try {
-// 		const subscribers = await Subscriber.find();
-// 		res.status(200).json(subscribers);
-// 	} catch (err) {
-// 		res.status(500).json(err);
-// 	}
-// });
+// Get Transaction by id
+router.get('/:id', getTransaction, async (req: Request, res: Response): Promise<void> => {
+    res.status(200).json(res.transaction);
+});
 
-// // TODO: change res: any
-// router.get('/:id', getSubscriber, (req, res: any) => {
-// 	res.send(res.subscriber);
-// });
+// Add transaction
+router.post('/', async (req: Request, res: Response): Promise<void> => {
+    const transaction = new Transaction<TransactionImpl>({
+        amount: req.body.amount,
+        description: req.body.description,
+        transactionType: req.body.transactionType,
+        category: req.body.category,
+        vault: req.body.vault,
+        date: req.body.date,
+    });
 
-// router.post('/', async (req, res) => {
-// 	const subscriber = new Subscriber({
-// 		name: req.body.name,
-// 		subscribedToChannel: req.body.subscribedToChannel
-// 	});
-// 	try {
-// 		const newSubscriber = await subscriber.save()
-// 		res.status(201).json(newSubscriber);
-// 	} catch (err) {
-// 		res.status(400).json(err);
-// 	}
-// });
+    try {
+        const newTransaction = await transaction.save();
+        res.status(201).json(newTransaction);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
-// // TODO: change res: any
-// router.patch('/:id', getSubscriber, async (req, res: any) => {
-// 	if (req.body.name != null) {
-// 		res.subscriber.name = req.body.name;
-// 	}
-// 	if (req.body.name != null) {
-// 		res.subscriber.subscribedToChannel = req.body.subscribedToChannel;
-// 	}
-// 	try {
-// 		const updatedSubscriber = await res.subscriber.save();
-// 		res.json(updatedSubscriber);
-// 	} catch (err) {
-// 		res.status(400).json(err);
-// 	}
-// });
+// Update Transaction
+router.patch('/:id', getTransaction, async (req: Request, res: Response): Promise<any> => {
+    if (req.body.amount != null) res.transaction.amount = req.body.amount;
+    if (req.body.description != null) res.transaction.description = req.body.description;
+    if (req.body.transactionType != null) res.transaction.transactionType = req.body.transactionType;
+    if (req.body.category != null) res.transaction.category = req.body.category;
+    if (req.body.vault != null) res.transaction.vault = req.body.vault;
+    if (req.body.date != null) res.transaction.date = req.body.date;
+    // TODO : find better validation way. Very ugly and bad but it's copy paste from other routes.(for now)
 
-// // TODO: change res: any
-// router.delete('/:id', getSubscriber, async (req, res: any) => {
-// 	try {
-// 		await res.subscriber.remove();
-// 		res.json({ message: 'Deleted subscriber' });
-// 	} catch (err) {
-// 		res.status(500).json(err);
-// 	}
-// });
+    if (
+        req.body.amount === undefined &&
+        req.body.description === undefined &&
+        req.body.transactionType === undefined &&
+        req.body.category === undefined &&
+        req.body.vault === undefined &&
+        req.body.date === undefined
+    ) {
+        return res.status(400).json({message: 'Nothing to update!'});
+    }
 
-// // TODO: change res: any
-// async function getSubscriber(req: Request, res: any, next: NextFunction): Promise<any> {
-// 	let subscriber;
-// 	try {
-// 		subscriber = await Subscriber.findById(req.params.id);
-// 		if (subscriber == null) {
-// 			return res.status(404).json({ message: 'Cannot find subscriber' });
-// 		}
-// 	} catch (err) {
-// 		return res.status(500).json(err);
-// 	}
+    try {
+        const updatedTransaction = await res.transaction.save();
+        res.json(updatedTransaction);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
 
-// 	res.subscriber = subscriber;
-// 	next();
-// }
+// Delete Transaction
+router.delete('/:id', getTransaction, async (req: Request, res: Response): Promise<void> => {
+    try {
+        await res.transaction.remove();
+        res.json({message: 'Deleted transaction'});
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 export default router;
