@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {ICurrency, default as Currency} from '../model/currency-rates';
+import Currency, {ICurrency} from '../model/currency-rates';
 
 const router = express.Router();
 

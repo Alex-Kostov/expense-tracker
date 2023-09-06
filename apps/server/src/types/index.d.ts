@@ -1,5 +1,6 @@
-import {ICurrency} from '../model/currency-rates';
 import {Document} from 'mongoose';
+
+import {ICurrency} from '../model/currency-rates';
 import {IVault} from '../model/vaults';
 import {ITransaction} from '../model/transactions';
 

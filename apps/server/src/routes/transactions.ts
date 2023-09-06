@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {default as Transaction, ITransaction} from '../model/transactions';
+import Transaction, {ITransaction} from '../model/transactions';
 
 const router = express.Router();
 

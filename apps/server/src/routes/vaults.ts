@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {default as Vault, IVault} from '../model/vaults';
+import Vault, {IVault} from '../model/vaults';
 
 const router = express.Router();
 
