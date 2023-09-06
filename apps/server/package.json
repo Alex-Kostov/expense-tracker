@@ -1,11 +1,11 @@
 {
-	"name": "expense-tracker",
+	"name": "expense-tracker-server",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start-server": "ts-node --files server/src/server.ts",
-		"db-reset": "ts-node server/src/db/seed.ts"
+		"start-server": "ts-node --files src/server.ts",
+		"db-reset": "ts-node src/db/seed.ts"
 	},
 	"keywords": [],
 	"author": "",
