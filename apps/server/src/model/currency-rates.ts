@@ -1,13 +1,13 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export interface CurrencyImpl {
+export interface ICurrency {
 	code: string;
 	rate: number;
 	_id?: Types.ObjectId;
 	__v?: number;
 }
 
-const currencySchema = new Schema<CurrencyImpl>({
+const currencySchema = new Schema<ICurrency>({
 	code: {
 		type: String,
 		required: true,
@@ -26,4 +26,4 @@ const currencySchema = new Schema<CurrencyImpl>({
 	}
 });
 
-export default mongoose.model<CurrencyImpl>('Currency', currencySchema);
+export default mongoose.model<ICurrency>('Currency', currencySchema);

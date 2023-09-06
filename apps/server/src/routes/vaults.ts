@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {default as Vault, VaultImpl} from '../model/vaults';
+import {default as Vault, IVault} from '../model/vaults';
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ const getVault = async (req: Request, res: Response, next: NextFunction): Promis
 // Get All Vaults
 router.get('/', async (req: Request, res: Response): Promise<void> => {
     try {
-        const vaults: VaultImpl[] = await Vault.find();
+        const vaults: IVault[] = await Vault.find();
         res.status(200).json(vaults);
     } catch (err) {
         res.status(500).json(err);
@@ -37,7 +37,7 @@ router.get('/:id', getVault, async (req: Request, res: Response): Promise<void> 
 
 // Add Vault
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-    const vault = new Vault<VaultImpl>({
+    const vault = new Vault<IVault>({
         name: req.body.name,
         balance: req.body.balance,
         type: req.body.type,

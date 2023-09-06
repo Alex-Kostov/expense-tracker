@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {CurrencyImpl, default as Currency} from '../model/currency-rates';
+import {ICurrency, default as Currency} from '../model/currency-rates';
 
 const router = express.Router();
 
@@ -23,7 +23,7 @@ const getCurrency = async (req: Request, res: Response, next: NextFunction): Pro
 // Get All Currencies
 router.get('/', async (req: Request, res: Response): Promise<void> => {
     try {
-        const currencies: CurrencyImpl[] = await Currency.find();
+        const currencies: ICurrency[] = await Currency.find();
         res.status(200).json(currencies);
     } catch (err) {
         res.status(500).json(err);
@@ -37,7 +37,7 @@ router.get('/:id', getCurrency, async (req: Request, res: Response): Promise<voi
 
 // Add currency
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-    const currency = new Currency<CurrencyImpl>({
+    const currency = new Currency<ICurrency>({
         code: req.body.code,
         rate: req.body.rate,
     });

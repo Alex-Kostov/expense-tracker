@@ -1,5 +1,5 @@
 import express, {NextFunction, Request, Response} from 'express';
-import {default as Transaction, TransactionImpl} from '../model/transactions';
+import {default as Transaction, ITransaction} from '../model/transactions';
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const getTransaction = async (req: Request, res: Response, next: NextFunction): 
 // Get All Transactions
 router.get('/', async (req: Request, res: Response): Promise<void> => {
     try {
-        const transactions: TransactionImpl[] = await Transaction.find();
+        const transactions: ITransaction[] = await Transaction.find();
         res.status(200).json(transactions);
     } catch (err) {
         res.status(500).json(err);
@@ -33,7 +33,7 @@ router.get('/:id', getTransaction, async (req: Request, res: Response): Promise<
 
 // Add transaction
 router.post('/', async (req: Request, res: Response): Promise<void> => {
-    const transaction = new Transaction<TransactionImpl>({
+    const transaction = new Transaction<ITransaction>({
         amount: req.body.amount,
         description: req.body.description,
         transactionType: req.body.transactionType,

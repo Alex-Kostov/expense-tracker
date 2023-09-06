@@ -1,13 +1,13 @@
-import {CurrencyImpl} from '../model/currency-rates';
+import {ICurrency} from '../model/currency-rates';
 import {Document} from 'mongoose';
-import {VaultImpl} from '../model/vaults';
-import {TransactionImpl} from '../model/transactions';
+import {IVault} from '../model/vaults';
+import {ITransaction} from '../model/transactions';
 
 export {};
 
-interface CurrencyDocImpl extends CurrencyImpl, Document {}
-interface VaultDocImpl extends VaultImpl, Document {}
-interface TransactionDocImpl extends TransactionImpl, Document {}
+interface CurrencyDocImpl extends ICurrency, Document {}
+interface VaultDocImpl extends IVault, Document {}
+interface TransactionDocImpl extends ITransaction, Document {}
 
 declare global {
     namespace Express {

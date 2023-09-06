@@ -1,6 +1,6 @@
 import mongoose, {Schema, Types} from 'mongoose';
 
-export interface VaultImpl {
+export interface IVault {
     name: string;
     balance: number;
     type: string;
@@ -9,7 +9,7 @@ export interface VaultImpl {
     __v?: number;
 }
 
-const vaultSchema = new Schema<VaultImpl>({
+const vaultSchema = new Schema<IVault>({
     name: {
         type: String,
         required: true,
@@ -28,4 +28,4 @@ const vaultSchema = new Schema<VaultImpl>({
     currency: {type: Schema.Types.ObjectId, ref: 'Currency'},
 });
 
-export default mongoose.model<VaultImpl>('Vault', vaultSchema);
+export default mongoose.model<IVault>('Vault', vaultSchema);

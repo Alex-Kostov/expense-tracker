@@ -1,15 +1,15 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-export interface TransactionImpl {
+export interface ITransaction {
 	amount: number;
 	description?: string;
 	transactionType: string;
 	category: string;
-	vault: Types.ObjectId;
+	vault?: Types.ObjectId;
 	date: Date;
 }
 
-const transactionSchema = new Schema<TransactionImpl>({
+const transactionSchema = new Schema<ITransaction>({
 	amount: {
 		type: Number,
 		required: true,
@@ -40,7 +40,7 @@ const transactionSchema = new Schema<TransactionImpl>({
 	},
 });
 
-export default mongoose.model<TransactionImpl>(
+export default mongoose.model<ITransaction>(
 	'Transaction',
 	transactionSchema
 );
