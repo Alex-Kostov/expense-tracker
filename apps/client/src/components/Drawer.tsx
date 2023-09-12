@@ -17,6 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -105,22 +106,55 @@ export default function MiniDrawer() {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
+
             <AppBar position="fixed" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{
-                            marginRight: 5,
-                            ...(open && { display: 'none' }),
-                        }}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Mini variant drawer
-                    </Typography>
+                <Toolbar
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '8px', // Reduced padding
+                    }}>
+                    <div>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={{
+                                marginRight: 2, // Reduced margin
+                                ...(open && { display: 'none' }),
+                            }}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap component="div">
+                            Mini variant drawer
+                        </Typography>
+                    </div>
+                    <Link
+                        to="/expenses"
+                        style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <IconButton
+                            color="inherit"
+                            aria-label="add expense"
+                            sx={{
+                                fontSize: '24px', // Reduced font size
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}>
+                            <AddIcon
+                                sx={{
+                                    color: 'white',
+                                }}
+                            />
+                            <Typography
+                                variant="subtitle1"
+                                sx={{ fontSize: '14px' }}>
+                                Add Expense
+                            </Typography>
+                        </IconButton>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
