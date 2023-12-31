@@ -8,9 +8,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "workspaces": [
-    "apps/server",
-    "apps/client"
-  ]
+  "license": "ISC"
 }
