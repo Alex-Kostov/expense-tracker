@@ -1,20 +1,26 @@
 import React from 'react'
-import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import RootLayout from "./pages/RootLayout.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 // TODO: Move router to separate file once it gets bigger.
 const router = createBrowserRouter([
 	{
-		// path: "/",
-		// element: <RootLayout/>,
-		// // errorElement,
-		// children: [],
+		path: "/",
+		element: <RootLayout/>,
+		children: [
+			{
+				index: true,
+				element: <Dashboard />
+			}
+		],
 	}
 ]);
 
-function App() {
+// console.log('app')
 
+function App() {
 	return <RouterProvider router={router}/>;
 }
 
-export default App
+export default App;
