@@ -7,15 +7,21 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 
-const drawerWidth = 240;
+interface AppBarStyledProps extends MuiAppBarProps {
+	open?: boolean
+	drawerWidth: number;
+}
 
-interface AppBarProps extends MuiAppBarProps {
-	open?: boolean;
+interface AppBarProps {
+	handleDrawerOpen: React.MouseEventHandler,
+	open: boolean,
+	drawerWidth: number,
+	title: string
 }
 
 const AppBarStyled = styled(MuiAppBar, {
-	shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({theme, open}) => ({
+	shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
+})<AppBarStyledProps>(({theme, open, drawerWidth}) => ({
 	transition: theme.transitions.create(['margin', 'width'], {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -30,9 +36,9 @@ const AppBarStyled = styled(MuiAppBar, {
 	}),
 }));
 
-const AppBar = ({handleDrawerOpen, open}: { handleDrawerOpen: React.MouseEventHandler, open: boolean }) => {
+const AppBar = ({handleDrawerOpen, open, drawerWidth, title}: AppBarProps) => {
 	return (
-		<AppBarStyled position="fixed" open={open} sx={{backgroundColor: 'white'}}>
+		<AppBarStyled position="fixed" open={open} drawerWidth={drawerWidth} sx={{backgroundColor: 'white'}}>
 			<Toolbar>
 				<IconButton
 					aria-label="open drawer"
@@ -43,7 +49,7 @@ const AppBar = ({handleDrawerOpen, open}: { handleDrawerOpen: React.MouseEventHa
 					<MenuIcon/>
 				</IconButton>
 				<Typography variant="h6" noWrap component="div" sx={{color: 'black'}}>
-					Persistent drawer
+					{title}
 				</Typography>
 			</Toolbar>
 		</AppBarStyled>
