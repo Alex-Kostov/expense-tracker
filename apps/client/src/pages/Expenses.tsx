@@ -5,18 +5,24 @@ import Divider from "@mui/material/Divider";
 import DataTable, {Expenses} from "../components/DataTable.tsx";
 import {GridColDef} from "@mui/x-data-grid";
 import {Await, defer, json, useLoaderData} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {uiActions} from "../store/uiReducer.ts";
 
 const columns: GridColDef[] = [
-	{field: "id", headerName: "ID", width: 70},
+	{field: "id", headerName: "ID", width: 210},
 	{field: "date", headerName: "Date", width: 130},
-	{field: "category", headerName: "Category", width: 130},
-	{field: "description", headerName: "Description", width: 130},
-	{field: "amount", headerName: "Amount", type: "number", width: 130},
-	{field: "transactionType", headerName: "Type", width: 130, hideable: true},
-	{field: "vault", headerName: "Vault", width: 130}
+	{field: "category", headerName: "Category", width: 100},
+	{field: "description", headerName: "Description", width: 150},
+	{field: "amount", headerName: "Amount", type: "number", width: 100},
+	{field: "transactionType", headerName: "Type", width: 100},
+	{field: "vault", headerName: "Vault", width: 210}
 ];
 
 const Expenses = () => {
+	const dispatch = useDispatch();
+	const openModalHandler = () => dispatch(uiActions.openAddExpenseModal());
+
+	// TODO: Expenses are not being updated automatically on Add Expense
 	const {expenses} = useLoaderData() as { expenses: Expenses[] };
 
 	return (
@@ -24,7 +30,7 @@ const Expenses = () => {
 			<div className="top-section">
 				<h2>Expenses</h2>
 				<div className="button-container">
-					<Button variant="contained">Add Expense</Button>
+					<Button variant="contained" onClick={openModalHandler}>Add Expense</Button>
 				</div>
 			</div>
 			<Divider/>
@@ -33,7 +39,6 @@ const Expenses = () => {
 				<Suspense fallback={<p>Loading...</p>}>
 					<Await resolve={expenses}>
 						{(loadedExpenses) => <DataTable columns={columns} rows={loadedExpenses}/>}
-						{/*<DataTable columns={columns} rows={rows}/>*/}
 					</Await>
 				</Suspense>
 			</div>
@@ -53,7 +58,18 @@ const loadExpenses = async () => {
 			message: "Could not fetch expenses."
 		}, {status: 500});
 	} else {
-		return response.json();
+		const resData: Expenses[] = await response.json();
+		const formattedExpenses = resData.map((e) => {
+			const dateObject = new Date(e.date);
+			const date = new Intl.DateTimeFormat("en-GB").format(dateObject);
+
+			return {
+				...e,
+				date
+			};
+		});
+
+		return formattedExpenses;
 	}
 };
 

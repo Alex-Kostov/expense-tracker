@@ -22,6 +22,7 @@ export default function DataTable({rows, columns}: DataTableProps) {
 	return (
 		<div>
 			<DataGrid
+				className="data-table"
 				rows={rows}
 				columns={columns}
 				initialState={{
