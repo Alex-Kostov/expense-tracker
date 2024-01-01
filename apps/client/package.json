@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.2",
     "@mui/material": "^5.15.2",
+    "@mui/x-data-grid": "^6.18.6",
     "@reduxjs/toolkit": "^2.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.4",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "sass": "^1.69.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.46",

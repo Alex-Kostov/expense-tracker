@@ -12,12 +12,16 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import AppBar from "./AppBar.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {StoreState} from "../store/store.ts";
 import {uiActions} from "../store/uiReducer.ts";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import {NavLink} from "react-router-dom";
+import styles from './Drawer.module.css';
+import MoneyOffSharpIcon from '@mui/icons-material/MoneyOffSharp';
+
+// TODO: Usage of 2 different styling methods, remove styles or Drawer.module.css, use only one styling method.
 
 const drawerWidth = 240;
 
@@ -62,29 +66,27 @@ export default function PersistentDrawerLeft() {
 				</DrawerHeader>
 				<Divider/>
 				<List>
-					{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-						<ListItem key={text} disablePadding>
+					<NavLink to="/" end
+									 className={({isActive}) => isActive ? styles['link-active'] : styles.link}>
+						<ListItem key="Dashboard" disablePadding>
 							<ListItemButton>
 								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+									<DashboardIcon/>
 								</ListItemIcon>
-								<ListItemText primary={text}/>
+								<ListItemText primary="Dashboard"/>
 							</ListItemButton>
 						</ListItem>
-					))}
-				</List>
-				<Divider/>
-				<List>
-					{['All mail', 'Trash', 'Spam'].map((text, index) => (
-						<ListItem key={text} disablePadding>
+					</NavLink>
+					<NavLink to="/expenses" end className={({isActive}) => isActive ? styles['link-active'] : styles.link}>
+						<ListItem key="Expenses" disablePadding>
 							<ListItemButton>
 								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
+									<MoneyOffSharpIcon/>
 								</ListItemIcon>
-								<ListItemText primary={text}/>
+								<ListItemText primary="Expenses"/>
 							</ListItemButton>
 						</ListItem>
-					))}
+					</NavLink>
 				</List>
 			</Drawer>
 		</Box>
