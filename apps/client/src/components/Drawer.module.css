@@ -1,0 +1,13 @@
+.link {
+    text-decoration: none;
+    color: initial;
+}
+
+.link:visited {
+    color: black;
+}
+
+.link-active {
+    text-decoration: none;
+    color: blue
+}

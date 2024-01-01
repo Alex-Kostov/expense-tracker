@@ -1,41 +1,30 @@
-import React, { useMemo } from 'react';
-import {
-    BrowserRouter,
-    BrowserRouter as Router,
-    Navigate,
-    Route,
-    Routes,
-} from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Layout from './pages/Layout';
-import { useSelector } from 'react-redux';
-import { State } from './state';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { themeSettings } from './theme';
-import CssBaseline from '@mui/material/CssBaseline';
+import React from 'react'
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import RootLayout from "./pages/RootLayout.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
+import Expenses, {loader as ExpensesLoader} from "./pages/Expenses.tsx";
+
+// TODO: Move router to separate file once it gets bigger.
+const router = createBrowserRouter([
+	{
+		path: "/",
+		element: <RootLayout/>,
+		children: [
+			{
+				index: true,
+				element: <Dashboard />
+			},
+			{
+				path: "/expenses",
+				element: <Expenses />,
+				loader: ExpensesLoader
+			}
+		],
+	}
+]);
 
 function App() {
-    const mode = useSelector((state: State) => state.global.mode);
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-
-    return (
-        <div className="app">
-            <BrowserRouter>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <Routes>
-                        <Route element={<Layout />}>
-                            <Route
-                                path="/"
-                                element={<Navigate to="/dashboard" replace />}
-                            />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                        </Route>
-                    </Routes>
-                </ThemeProvider>
-            </BrowserRouter>
-        </div>
-    );
+	return <RouterProvider router={router}/>;
 }
 
 export default App;
