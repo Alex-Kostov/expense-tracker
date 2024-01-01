@@ -1,6 +1,7 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
 export interface ITransaction {
+	_id?: string;
 	amount: number;
 	description?: string;
 	transactionType: string;
