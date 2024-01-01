@@ -15,6 +15,9 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AppBar from "./AppBar.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreState} from "../store/store.ts";
+import {uiActions} from "../store/uiReducer.ts";
 
 const drawerWidth = 240;
 
@@ -27,21 +30,18 @@ const DrawerHeader = styled('div')(({theme}) => ({
 }));
 
 export default function PersistentDrawerLeft() {
+	const dispatch = useDispatch();
+	const toggleDrawer = () => dispatch(uiActions.toggleDrawer());
+
+	const drawerIsOpen = useSelector((state: StoreState) => state.ui.drawerIsOpen);
+
 	const theme = useTheme();
-	const [open, setOpen] = React.useState(true);
-
-	const handleDrawerOpen = () => {
-		setOpen(true);
-	};
-
-	const handleDrawerClose = () => {
-		setOpen(false);
-	};
 
 	return (
 		<Box sx={{display: 'flex'}}>
 			<CssBaseline/>
-			<AppBar handleDrawerOpen={handleDrawerOpen} open={open} drawerWidth={drawerWidth} title="Expense Tracker"/>
+			<AppBar handleDrawerOpen={toggleDrawer} open={drawerIsOpen} drawerWidth={drawerWidth}
+							title="Expense Tracker"/>
 			<Drawer
 				sx={{
 					width: drawerWidth,
@@ -53,10 +53,10 @@ export default function PersistentDrawerLeft() {
 				}}
 				variant="persistent"
 				anchor="left"
-				open={open}
+				open={drawerIsOpen}
 			>
 				<DrawerHeader>
-					<IconButton onClick={handleDrawerClose}>
+					<IconButton onClick={toggleDrawer}>
 						{theme.direction === 'ltr' ? <ChevronLeftIcon/> : <ChevronRightIcon/>}
 					</IconButton>
 				</DrawerHeader>

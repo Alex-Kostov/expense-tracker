@@ -1,0 +1,13 @@
+.main {
+    /* TopBar height*/
+    margin-top: 66px;
+
+    flex: 1;
+    padding: 20px;
+    background-color: #d2d2d2;
+    transition: margin 0.3s ease;
+}
+
+.drawerIsOpen {
+    margin-left: 240px;
+}

@@ -21,19 +21,15 @@ interface AppBarProps {
 
 const AppBarStyled = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
-})<AppBarStyledProps>(({theme, open, drawerWidth}) => ({
-	transition: theme.transitions.create(['margin', 'width'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
+})<AppBarStyledProps>(({open, drawerWidth}) => ({
+	transition: 'margin 0.3s ease',
 	...(open && {
 		width: `calc(100% - ${drawerWidth}px)`,
 		marginLeft: `${drawerWidth}px`,
-		transition: theme.transitions.create(['margin', 'width'], {
-			easing: theme.transitions.easing.easeOut,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
+		transition: 'margin 0.3s ease',
 	}),
+	boxShadow: "none",
+	borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
 }));
 
 const AppBar = ({handleDrawerOpen, open, drawerWidth, title}: AppBarProps) => {
