@@ -2,6 +2,7 @@ import React from "react";
 import "./Dashboard.scss";
 import InfoCube from "../components/InfoCube.tsx";
 import Divider from "@mui/material/Divider";
+import ExpenseTrackerLineChart from "../components/ExpenseTrackerLineChart.tsx";
 
 const Dashboard = () => {
 	return (
@@ -17,7 +18,10 @@ const Dashboard = () => {
 				</div>
 			</section>
 			<section className="bottom">
-				test
+				<div className="expense-chart">
+					<h4>Expenses Vs Incomes this month</h4>
+					<ExpenseTrackerLineChart />
+				</div>
 			</section>
 		</div>
 	);
