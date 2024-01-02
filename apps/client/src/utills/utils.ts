@@ -1,33 +1,33 @@
-import {Expense} from "../store/transactionsReducer.ts";
+import {Transaction} from "../store/transactionsReducer.ts";
 import {Vault} from "../store/vaultsReducer.ts";
 import {Category} from "../store/catergoriesReducer.ts";
 
-export const mapExpensesWithVaultNames = (expenses: Expense[], vaults: Vault[]) => {
-	return expenses.map((e) => {
-		const matchingVault = vaults.find((v) => v._id === e.vault);
+export const mapTransactionsWithVaultNames = (transactions: Transaction[], vaults: Vault[]) => {
+	return transactions.map((t) => {
+		const matchingVault = vaults.find((v) => v._id === t.vault);
 
 		if (matchingVault) {
 			return {
-				...e,
+				...t,
 				vault: matchingVault.name
 			};
 		}
 
-		return e;
+		return t;
 	});
 };
 
-export const mapExpensesWithCategoryNames = (expenses: Expense[], categories: Category[]) => {
-	return expenses.map((e) => {
-		const matchingCategory = categories.find((c) => c.key === e.category);
+export const mapTransactionsWithCategoryNames = (transactions: Transaction[], categories: Category[]) => {
+	return transactions.map((t) => {
+		const matchingCategory = categories.find((c) => c.key === t.category);
 
 		if (matchingCategory) {
 			return {
-				...e,
+				...t,
 				category: matchingCategory.label
 			};
 		}
 
-		return e;
+		return t;
 	});
 };

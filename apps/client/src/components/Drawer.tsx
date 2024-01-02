@@ -20,6 +20,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import {NavLink} from "react-router-dom";
 import styles from './Drawer.module.css';
 import MoneyOffSharpIcon from '@mui/icons-material/MoneyOffSharp';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 // TODO: Usage of 2 different styling methods, remove styles or Drawer.module.css, use only one styling method.
 
@@ -84,6 +85,16 @@ export default function PersistentDrawerLeft() {
 									<MoneyOffSharpIcon/>
 								</ListItemIcon>
 								<ListItemText primary="Expenses"/>
+							</ListItemButton>
+						</ListItem>
+					</NavLink>
+					<NavLink to="/income" end className={({isActive}) => isActive ? styles['link-active'] : styles.link}>
+						<ListItem key="Income" disablePadding>
+							<ListItemButton>
+								<ListItemIcon>
+									<AttachMoneyIcon/>
+								</ListItemIcon>
+								<ListItemText primary="Income"/>
 							</ListItemButton>
 						</ListItem>
 					</NavLink>

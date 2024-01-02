@@ -3,24 +3,30 @@ import {StoreState} from "../store/store.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {uiActions} from "../store/uiReducer.ts";
 import Modal from "./Modal.tsx";
-import "./AddExpense.scss";
+import "./AddTransaction.scss";
 import {Button, TextField} from "@mui/material";
-import {addExpense} from "../store/transactionsReducer.ts";
+import {addTransaction} from "../store/transactionsReducer.ts";
 import {ThunkDispatch} from "@reduxjs/toolkit";
-import {Await} from "react-router-dom";
+import {Await, useLocation} from "react-router-dom";
 import {Vault} from "../store/vaultsReducer.ts";
 import Select from "./Select.tsx";
 import {Category} from "../store/catergoriesReducer.ts";
 
 const FORM_DATA_INITIAL_STATE = {amount: 0, description: "", vault: "", category: "", date: ""};
 
-const AddExpense = () => {
-	const isOpen = useSelector((state: StoreState) => state.ui.addExpenseIsOpen);
-	const vaults = useSelector((state: StoreState) => state.vaults.vaults);
-	const categories = useSelector((state: StoreState) => state.categories.expenseCategories);
+const AddTransaction = () => {
+	const {pathname} = useLocation();
+	const isExpense = pathname === "/expenses";
 
 	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
-	const closeAddExpenseModal = () => dispatch(uiActions.closeAddExpenseModal());
+
+	const isOpen = useSelector((state: StoreState) => state.ui.addTransactionIsOpen);
+	const vaults = useSelector((state: StoreState) => state.vaults.vaults);
+	const categories = useSelector((state: StoreState) => {
+		return isExpense ? state.categories.expenseCategories : state.categories.incomeCategories;
+	});
+
+	const closeAddTransactionModal = () => dispatch(uiActions.closeAddTransactionModal());
 
 	const [formData, setFormData] = useState(FORM_DATA_INITIAL_STATE);
 	const resetFormData = () => setFormData(FORM_DATA_INITIAL_STATE);
@@ -37,8 +43,8 @@ const AddExpense = () => {
 		e.preventDefault();
 
 		try {
-			await dispatch(addExpense({...formData, transactionType: "expense"}));
-			closeAddExpenseModal();
+			await dispatch(addTransaction({...formData, transactionType: isExpense ? "expense" : "income"}));
+			closeAddTransactionModal();
 			resetFormData();
 		} catch (error: any) {
 			// TODO: Add error handling component
@@ -48,11 +54,11 @@ const AddExpense = () => {
 
 	return (
 		<Modal open={isOpen} onClose={() => {
-			closeAddExpenseModal();
+			closeAddTransactionModal();
 			resetFormData();
 		}} className="modal">
 			<form onSubmit={handleSubmit}>
-				<h3>Add Expense</h3>
+				<h3>Add {isExpense ? 'Expense' : 'Income'}</h3>
 				<div className="inputs">
 					<TextField name="amount" label="Amount" type="number" variant="outlined" value={formData.amount} required
 										 onChange={handleChange}/>
@@ -95,7 +101,7 @@ const AddExpense = () => {
 				</div>
 
 				<div className="control-row">
-					<Button variant="outlined" onClick={closeAddExpenseModal}>Cancel</Button>
+					<Button variant="outlined" onClick={closeAddTransactionModal}>Cancel</Button>
 					<Button variant="contained" type="submit">Add</Button>
 				</div>
 			</form>
@@ -103,4 +109,4 @@ const AddExpense = () => {
 	);
 };
 
-export default AddExpense;
+export default AddTransaction;

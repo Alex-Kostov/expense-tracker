@@ -2,12 +2,12 @@ import {createSlice} from "@reduxjs/toolkit";
 
 export interface UIState {
 	drawerIsOpen: boolean;
-	addExpenseIsOpen: boolean;
+	addTransactionIsOpen: boolean;
 }
 
 const initialUIState: UIState = {
 	drawerIsOpen: true,
-	addExpenseIsOpen: false
+	addTransactionIsOpen: false
 };
 
 const uiSlice = createSlice({
@@ -18,12 +18,12 @@ const uiSlice = createSlice({
 			state.drawerIsOpen = !state.drawerIsOpen;
 		},
 
-		closeAddExpenseModal(state) {
-			state.addExpenseIsOpen = false;
+		closeAddTransactionModal(state) {
+			state.addTransactionIsOpen = false;
 		},
 
 		openAddExpenseModal(state) {
-			state.addExpenseIsOpen = true;
+			state.addTransactionIsOpen = true;
 		}
 	}
 });

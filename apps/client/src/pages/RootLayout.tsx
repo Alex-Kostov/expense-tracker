@@ -3,7 +3,7 @@ import {Outlet} from "react-router-dom";
 import Drawer from "../components/Drawer.tsx";
 import {useSelector} from "react-redux";
 import {StoreState} from "../store/store.ts";
-import AddExpense from "../components/AddExpense.tsx";
+import AddTransaction from "../components/AddTransaction.tsx";
 
 import "./RootLayout.scss";
 
@@ -15,7 +15,7 @@ const RootLayout = () => {
 			<Drawer/>
 			<main className={`main ${drawerIsOpen ? "drawer-is-open" : ""}`}>
 				<Outlet/>
-				<AddExpense/>
+				<AddTransaction/>
 			</main>
 		</>
 	);

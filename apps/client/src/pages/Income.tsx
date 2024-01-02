@@ -17,39 +17,39 @@ const columns: GridColDef[] = [
 	{field: "category", headerName: "Category", width: 150},
 	{field: "description", headerName: "Description", width: 150},
 	{field: "amount", headerName: "Amount", type: "number", width: 100},
-	// {field: "transactionType", headerName: "Type", width: 100},
+	{field: "transactionType", headerName: "Type", width: 100},
 	{field: "vault", headerName: "Vault", width: 210}
 ];
 
-const Expenses = () => {
-	const expenses = useSelector((state: StoreState) => state.transactions.expenses);
+const Income = () => {
+	const income = useSelector((state: StoreState) => state.transactions.income);
 	const vaults = useSelector((state: StoreState) => state.vaults.vaults);
-	const categories = useSelector((state: StoreState) => state.categories.expenseCategories);
+	const categories = useSelector((state: StoreState) => state.categories.incomeCategories);
 
-	const expensesVaultsMap = mapTransactionsWithVaultNames(expenses, vaults);
-	const expensesCategoriesMap = mapTransactionsWithCategoryNames(expensesVaultsMap, categories);
+	const incomeVaultsMap = mapTransactionsWithVaultNames(income, vaults);
+	const incomeCategoriesMap = mapTransactionsWithCategoryNames(incomeVaultsMap, categories);
 
 	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 	const openModalHandler = () => dispatch(uiActions.openAddExpenseModal());
 
 	useEffect(() => {
-		dispatch(fetchTransactions('expense'));
+		dispatch(fetchTransactions("income"));
 	}, [dispatch]);
 
 	return (
 		<>
 			<div className="top-section">
-				<h2>Expenses</h2>
+				<h2>Income</h2>
 				<div className="button-container">
-					<Button variant="contained" onClick={openModalHandler}>Add Expense</Button>
+					<Button variant="contained" onClick={openModalHandler}>Add Income</Button>
 				</div>
 			</div>
 			<Divider/>
 			<div className="bottom-section">
-				<h4>Last expenses</h4>
+				<h4>Last Income</h4>
 				<Suspense fallback={<p>Loading...</p>}>
-					<Await resolve={expensesCategoriesMap}>
-						{(loadedExpenses) => <DataTable columns={columns} rows={loadedExpenses}/>}
+					<Await resolve={incomeCategoriesMap}>
+						{(loadedIncome) => <DataTable columns={columns} rows={loadedIncome}/>}
 					</Await>
 				</Suspense>
 			</div>
@@ -57,4 +57,4 @@ const Expenses = () => {
 	);
 };
 
-export default Expenses;
+export default Income;

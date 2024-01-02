@@ -1,22 +1,24 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import apiService from "../apiService.ts";
 
-export interface Expense {
+export interface Transaction {
 	id?: string,
 	date: string,
 	category: string,
 	description: string,
 	amount: number,
-	transactionType: string,
+	transactionType: "income" | "expense",
 	vault: string,
 }
 
 export interface TransactionsState {
-	expenses: Expense[];
+	expenses: Transaction[];
+	income: Transaction[];
 }
 
 const transactionsState: TransactionsState = {
-	expenses: []
+	expenses: [],
+	income: []
 };
 
 const transactionsSlice = createSlice({
@@ -24,28 +26,30 @@ const transactionsSlice = createSlice({
 	initialState: transactionsState,
 	reducers: {},
 	extraReducers: (builder) => {
-		builder.addCase(fetchExpenses.fulfilled, (state, action) => {
-			state.expenses = action.payload;
+		builder.addCase(fetchTransactions.fulfilled, (state, action) => {
+			const {type, data} = action.payload;
+			state[type === "expense" ? "expenses" : "income"] = data;
 		});
 	}
 
 });
 
-export const fetchExpenses = createAsyncThunk("expenses/fetchExpenses", async () => {
+export const fetchTransactions = createAsyncThunk("transactions/fetchTransactions", async (type: "income" | "expense") => {
 	try {
-		return await apiService.getExpenses();
+		const data = await apiService.getTransactions(type);
+		return {type, data};
 	} catch (error: any) {
 		throw new Error("Failed to fetch expenses");
 	}
 });
 
-export const addExpense = createAsyncThunk("expenses/addExpense", async (expense: Expense, {dispatch}) => {
+export const addTransaction = createAsyncThunk("transactions/addTransaction", async (transaction: Transaction, {dispatch}) => {
 	try {
-		await apiService.addExpense(expense);
-		dispatch(fetchExpenses());
-		return expense;
+		await apiService.addTransaction(transaction);
+		dispatch(fetchTransactions(transaction.transactionType));
+		return transaction;
 	} catch (error: any) {
-		throw new Error("Failed to fetch expenses");
+		throw new Error(`Failed to fetch ${transaction.transactionType}`);
 	}
 });
 

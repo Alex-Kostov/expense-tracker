@@ -3,6 +3,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootLayout from "./pages/RootLayout.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Expenses from "./pages/Expenses.tsx";
+import Income from "./pages/Income.tsx";
 
 // TODO: Move router to separate file once it gets bigger.
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
 			{
 				path: "/expenses",
 				element: <Expenses/>
+			},
+			{
+				path: "/income",
+				element: <Income/>
 			}
 		]
 	}
