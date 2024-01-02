@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, Suspense} from "react";
 import {StoreState} from "../store/store.ts";
 import {useDispatch, useSelector} from "react-redux";
 import {uiActions} from "../store/uiReducer.ts";
@@ -7,11 +7,15 @@ import "./AddExpense.scss";
 import {Button, TextField} from "@mui/material";
 import {addExpense} from "../store/transactionsReducer.ts";
 import {ThunkDispatch} from "@reduxjs/toolkit";
+import {Await} from "react-router-dom";
+import {Vault} from "../store/vaultsReducer.ts";
+import Select from "./Select.tsx";
 
-const FORM_DATA_INITIAL_STATE = {amount: 0, description: "", category: "", date: ""};
+const FORM_DATA_INITIAL_STATE = {amount: 0, description: "", vault: "", category: "", date: ""};
 
 const AddExpense = () => {
 	const isOpen = useSelector((state: StoreState) => state.ui.addExpenseIsOpen);
+	const vaults = useSelector((state: StoreState) => state.vaults.vaults);
 
 	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 	const closeAddExpenseModal = () => dispatch(uiActions.closeAddExpenseModal());
@@ -19,7 +23,7 @@ const AddExpense = () => {
 	const [formData, setFormData] = useState(FORM_DATA_INITIAL_STATE);
 	const resetFormData = () => setFormData(FORM_DATA_INITIAL_STATE);
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (event: any) => {
 		const {name, value} = event.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -31,7 +35,7 @@ const AddExpense = () => {
 		e.preventDefault();
 
 		try {
-			await dispatch(addExpense({...formData, transactionType: "expense", vault: "63d504a8f8b99c066e8d6b71"}));
+			await dispatch(addExpense({...formData, transactionType: "expense"}));
 			closeAddExpenseModal();
 			resetFormData();
 		} catch (error: any) {
@@ -54,7 +58,22 @@ const AddExpense = () => {
 										 onChange={handleChange} sx={{marginTop: "15px"}}/>
 					<TextField name="category" label="Category" variant="outlined" value={formData.category}
 										 onChange={handleChange} sx={{marginTop: "15px"}}/>
-					{/* TODO: ADD "vault": "63d504a8f8b99c066e8d6b71",*/}
+
+					<Suspense fallback={<p>Loading...</p>}>
+						<Await resolve={vaults}>
+							{(loadedVaults: Vault[]) => (
+								<Select className="select-field" value={formData.vault} name="vault" onChange={handleChange}>
+									<option value="">Select a Vault</option>
+									{loadedVaults.map((v) => (
+										<option key={v._id} value={v._id}>
+											{v.name}
+										</option>
+									))}
+								</Select>
+							)}
+						</Await>
+					</Suspense>
+
 					<TextField name="date" type="date" variant="outlined" value={formData.date} onChange={handleChange}
 										 sx={{marginTop: "15px"}}/>
 				</div>

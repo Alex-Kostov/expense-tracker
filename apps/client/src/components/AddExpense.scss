@@ -1,5 +1,5 @@
 dialog.modal {
-  height: 450px;
+  height: 550px;
   width: 20vw;
   border: 1px solid #4f4f4f;
   border-radius: 3%;
@@ -15,6 +15,17 @@ dialog.modal {
       display: flex;
       flex-direction: column;
       width: 100%;
+
+      .select-field {
+        font-size: 16px;
+        color: #727272;
+        margin-top: 15px;
+        padding: 15px;
+        background: none;
+        border: 1px solid #CFCFCF;
+        text-decoration: none;
+        border-radius: 5px;
+      }
     }
 
     .control-row {
