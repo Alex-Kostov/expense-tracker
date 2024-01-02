@@ -10,7 +10,7 @@ import {uiActions} from "../store/uiReducer.ts";
 import {StoreState} from "../store/store.ts";
 import {fetchExpenses} from "../store/transactionsReducer.ts";
 import {ThunkDispatch} from "@reduxjs/toolkit";
-import {mapExpensesWithVaultNames} from "../utills/utils.ts";
+import {mapExpensesWithCategoryNames, mapExpensesWithVaultNames} from "../utills/utils.ts";
 
 const columns: GridColDef[] = [
 	{field: "date", headerName: "Date", width: 130},
@@ -24,8 +24,10 @@ const columns: GridColDef[] = [
 const Expenses = () => {
 	const expenses = useSelector((state: StoreState) => state.transactions.expenses);
 	const vaults = useSelector((state: StoreState) => state.vaults.vaults);
+	const categories = useSelector((state: StoreState) => state.categories.expenseCategories);
 
-	const updatedExpenses = mapExpensesWithVaultNames(expenses, vaults);
+	const expensesVaultsMap = mapExpensesWithVaultNames(expenses, vaults);
+	const expensesCategoriesMap = mapExpensesWithCategoryNames(expensesVaultsMap, categories);
 
 	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 	const openModalHandler = () => dispatch(uiActions.openAddExpenseModal());
@@ -46,7 +48,7 @@ const Expenses = () => {
 			<div className="bottom-section">
 				<h4>Last expenses</h4>
 				<Suspense fallback={<p>Loading...</p>}>
-					<Await resolve={updatedExpenses}>
+					<Await resolve={expensesCategoriesMap}>
 						{(loadedExpenses) => <DataTable columns={columns} rows={loadedExpenses}/>}
 					</Await>
 				</Suspense>
