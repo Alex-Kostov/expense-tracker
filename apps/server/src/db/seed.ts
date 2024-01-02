@@ -53,7 +53,7 @@ const generateTransactionSeed = (vaults: IVault[]): ITransaction[] => {
         {
             amount: 6.15,
             transactionType: 'expense',
-            description: 'food during work',
+            description: 'Lunch during work',
             category: 'Supermarkets',
             vault: vaults.find((vault: IVault) => vault.name === 'Wallet')?._id,
             date: new Date(),
@@ -61,9 +61,25 @@ const generateTransactionSeed = (vaults: IVault[]): ITransaction[] => {
         {
             amount: 45,
             transactionType: 'expense',
-            description: 'udemy ts course',
+            description: 'Bought new udemy course.',
             category: 'Others',
             vault: vaults.find((vault: IVault) => vault.name === 'Revolut USD')?._id,
+            date: new Date(),
+        },
+        {
+            amount: 9999,
+            transactionType: 'income',
+            description: 'Salary form Umbrella Corp',
+            category: 'Salary',
+            vault: vaults.find((vault: IVault) => vault.name === 'Unicredit')?._id,
+            date: new Date(),
+        },
+        {
+            amount: 500.00,
+            transactionType: 'income',
+            description: 'Random bonus for good work.',
+            category: 'Bonus',
+            vault: vaults.find((vault: IVault) => vault.name === 'Revolut EUR')?._id,
             date: new Date(),
         },
     ];

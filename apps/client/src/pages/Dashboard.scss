@@ -1,0 +1,29 @@
+.dashboard {
+  padding: 0 20px;
+
+  section {
+    width: 100%;
+  }
+
+  section.top {
+    height: 20vh;
+
+    h2 {
+      text-align: left;
+      margin-left: 12px;
+    }
+
+    .stats {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+  }
+
+  section.bottom {
+    height: 80vh;
+    margin-top: 50px;
+  }
+
+}

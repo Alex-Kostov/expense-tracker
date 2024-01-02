@@ -15,9 +15,9 @@ import {mapTransactionsWithCategoryNames, mapTransactionsWithVaultNames} from ".
 const columns: GridColDef[] = [
 	{field: "date", headerName: "Date", width: 130},
 	{field: "category", headerName: "Category", width: 150},
-	{field: "description", headerName: "Description", width: 150},
+	{field: "description", headerName: "Description", width: 250},
 	{field: "amount", headerName: "Amount", type: "number", width: 100},
-	{field: "transactionType", headerName: "Type", width: 100},
+	// {field: "transactionType", headerName: "Type", width: 100},
 	{field: "vault", headerName: "Vault", width: 210}
 ];
 
