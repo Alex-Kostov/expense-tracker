@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootLayout from "./pages/RootLayout.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
-import Expenses, {loader as ExpensesLoader} from "./pages/Expenses.tsx";
+import Expenses from "./pages/Expenses.tsx";
 
 // TODO: Move router to separate file once it gets bigger.
 const router = createBrowserRouter([
@@ -12,14 +12,13 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Dashboard />
+				element: <Dashboard/>
 			},
 			{
 				path: "/expenses",
-				element: <Expenses />,
-				loader: ExpensesLoader
+				element: <Expenses/>
 			}
-		],
+		]
 	}
 ]);
 

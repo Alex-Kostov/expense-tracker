@@ -1,14 +1,14 @@
 import {configureStore} from "@reduxjs/toolkit";
 import uiReducer, {UIState} from "./uiReducer.ts";
+import transactionsReducer, {TransactionsState} from "./transactionsReducer.ts";
 
 export interface StoreState {
-	ui: UIState
+	ui: UIState;
+	transactions: TransactionsState;
 }
 
 const store = configureStore({
-	reducer: {ui: uiReducer},
+	reducer: {ui: uiReducer, transactions: transactionsReducer}
 });
 
 export default store;
-
-// Example usage can be seen here: https://github.com/Alex-Kostov/udemy-react/tree/main/20-starting-project/src/components

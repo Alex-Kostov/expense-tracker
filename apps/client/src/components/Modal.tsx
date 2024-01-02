@@ -5,6 +5,7 @@ interface ModalProps {
 	children: React.ReactNode,
 	open: boolean,
 	onClose: () => void,
+	className?: string,
 }
 
 const Modal = ({children, open, onClose, ...props}: ModalProps) => {
@@ -13,7 +14,7 @@ const Modal = ({children, open, onClose, ...props}: ModalProps) => {
 	useEffect(() => {
 		const modal = dialog.current;
 
-		if (open) {
+		if (open && modal) {
 			modal.showModal();
 		}
 

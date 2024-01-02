@@ -5,22 +5,30 @@ import {uiActions} from "../store/uiReducer.ts";
 import Modal from "./Modal.tsx";
 import "./AddExpense.scss";
 import {Button, TextField} from "@mui/material";
+import apiService from "../apiService.ts";
+import {fetchExpenses} from "../store/transactionsReducer.ts";
+import {ThunkDispatch} from "@reduxjs/toolkit";
+
+const FORM_DATA_INITIAL_STATE = {
+	amount: "",
+	description: "",
+	category: "",
+	date: ""
+};
 
 const AddExpense = () => {
 	const isOpen = useSelector((state: StoreState) => state.ui.addExpenseIsOpen);
 
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 	const closeAddExpenseModal = () => dispatch(uiActions.closeAddExpenseModal());
 
-	// TODO: Clear Data on modal close and submit
-	const [formData, setFormData] = useState({
-		amount: "",
-		description: "",
-		category: "",
-		date: ""
-	});
+	const [formData, setFormData] = useState(FORM_DATA_INITIAL_STATE);
 
-	const handleChange = (event) => {
+	const resetFormData = () => {
+		setFormData(FORM_DATA_INITIAL_STATE);
+	};
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = event.target;
 		setFormData((prevData) => ({
 			...prevData,
@@ -28,32 +36,25 @@ const AddExpense = () => {
 		}));
 	};
 
-	const handleSubmit = async (event) => {
-		// TODO: Create new file for requests.
-		event.preventDefault();
-		try {
-			const response = await fetch("http://localhost:3000/api/v1/transactions", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-				},
-				// TODO: Vault logic to be done.
-				body: JSON.stringify({...formData, transactionType: "expense", vault: "65917df1d1da86ec6298e2c5"})
-			});
+	const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault();
 
-			if (response.ok) {
-				closeAddExpenseModal();
-			} else {
-				console.error("Failed to add expense");
-			}
-		} catch (error) {
-			console.error("Error:", error);
+		try {
+			await apiService.addExpense({...formData, transactionType: "expense", vault: "63d504a8f8b99c066e8d6b71"});
+			closeAddExpenseModal();
+			resetFormData();
+			dispatch(fetchExpenses());
+		} catch (error: any) {
+			// TODO: Add better error handling.
+			console.error(error.message);
 		}
 	};
 
-
 	return (
-		<Modal open={isOpen} onClose={closeAddExpenseModal} className="modal">
+		<Modal open={isOpen} onClose={() => {
+			closeAddExpenseModal();
+			resetFormData();
+		}} className="modal">
 			<form onSubmit={handleSubmit}>
 				<h3>Add Expense</h3>
 				<div className="inputs">
