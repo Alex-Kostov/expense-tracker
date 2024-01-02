@@ -4,7 +4,7 @@ import {Expense} from "./store/transactionsReducer.ts";
 const API_BASE_URL = "http://localhost:3000/api/v1";
 
 interface AddExpenseFormData {
-	amount: string;
+	amount: number;
 	description: string;
 	category: string;
 	date: string;
@@ -22,7 +22,7 @@ const apiService = {
 			} else {
 				const resData: Expense[] = await response.json();
 
-				const formattedExpenses = resData.map((e) => {
+				return resData.map((e) => {
 					const dateObject = new Date(e.date);
 					const date = new Intl.DateTimeFormat("en-GB").format(dateObject);
 
@@ -31,8 +31,6 @@ const apiService = {
 						date
 					};
 				});
-
-				return formattedExpenses;
 			}
 		} catch (error: any) {
 			throw new Error(`Error: ${error.message}`);

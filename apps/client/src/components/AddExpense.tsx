@@ -5,16 +5,10 @@ import {uiActions} from "../store/uiReducer.ts";
 import Modal from "./Modal.tsx";
 import "./AddExpense.scss";
 import {Button, TextField} from "@mui/material";
-import apiService from "../apiService.ts";
-import {fetchExpenses} from "../store/transactionsReducer.ts";
+import {addExpense} from "../store/transactionsReducer.ts";
 import {ThunkDispatch} from "@reduxjs/toolkit";
 
-const FORM_DATA_INITIAL_STATE = {
-	amount: "",
-	description: "",
-	category: "",
-	date: ""
-};
+const FORM_DATA_INITIAL_STATE = {amount: 0, description: "", category: "", date: ""};
 
 const AddExpense = () => {
 	const isOpen = useSelector((state: StoreState) => state.ui.addExpenseIsOpen);
@@ -23,10 +17,7 @@ const AddExpense = () => {
 	const closeAddExpenseModal = () => dispatch(uiActions.closeAddExpenseModal());
 
 	const [formData, setFormData] = useState(FORM_DATA_INITIAL_STATE);
-
-	const resetFormData = () => {
-		setFormData(FORM_DATA_INITIAL_STATE);
-	};
+	const resetFormData = () => setFormData(FORM_DATA_INITIAL_STATE);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const {name, value} = event.target;
@@ -40,10 +31,9 @@ const AddExpense = () => {
 		e.preventDefault();
 
 		try {
-			await apiService.addExpense({...formData, transactionType: "expense", vault: "63d504a8f8b99c066e8d6b71"});
+			await dispatch(addExpense({...formData, transactionType: "expense", vault: "63d504a8f8b99c066e8d6b71"}));
 			closeAddExpenseModal();
 			resetFormData();
-			dispatch(fetchExpenses());
 		} catch (error: any) {
 			// TODO: Add better error handling.
 			console.error(error.message);

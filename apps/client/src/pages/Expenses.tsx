@@ -12,9 +12,8 @@ import {fetchExpenses} from "../store/transactionsReducer.ts";
 import {ThunkDispatch} from "@reduxjs/toolkit";
 
 const columns: GridColDef[] = [
-	{field: "id", headerName: "ID", width: 210},
 	{field: "date", headerName: "Date", width: 130},
-	{field: "category", headerName: "Category", width: 100},
+	{field: "category", headerName: "Category", width: 150},
 	{field: "description", headerName: "Description", width: 150},
 	{field: "amount", headerName: "Amount", type: "number", width: 100},
 	{field: "transactionType", headerName: "Type", width: 100},

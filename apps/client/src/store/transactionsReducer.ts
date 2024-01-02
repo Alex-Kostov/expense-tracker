@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import apiService from "../apiService.ts";
 
 export interface Expense {
-	id: string,
+	id?: string,
 	date: string,
 	category: string,
 	description: string,
@@ -22,19 +22,7 @@ const transactionsState: TransactionsState = {
 const transactionsSlice = createSlice({
 	name: "transactions",
 	initialState: transactionsState,
-	reducers: {
-		// getExpenses(state, action) {
-		//
-		// },
-		//
-		// addExpense(state, action) {
-		//
-		// },
-		//
-		// removeExpense(state, action) {
-		//
-		// }
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(fetchExpenses.fulfilled, (state, action) => {
 			state.expenses = action.payload;
@@ -46,6 +34,16 @@ const transactionsSlice = createSlice({
 export const fetchExpenses = createAsyncThunk("expenses/fetchExpenses", async () => {
 	try {
 		return await apiService.getExpenses();
+	} catch (error: any) {
+		throw new Error("Failed to fetch expenses");
+	}
+});
+
+export const addExpense = createAsyncThunk("expenses/addExpense", async (expense: Expense, {dispatch}) => {
+	try {
+		await apiService.addExpense(expense);
+		dispatch(fetchExpenses());
+		return expense;
 	} catch (error: any) {
 		throw new Error("Failed to fetch expenses");
 	}
