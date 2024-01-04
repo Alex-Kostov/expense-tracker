@@ -47,7 +47,7 @@ npm run dev
 - [X] Add Income page 
 - [X] Add Expense page
 - [X] Add Expense page
-- [ ] Connect dashboard chart
+- [X] Connect dashboard chart
 - [ ] Add Vaults Page
 - [ ] Add Categories Page
 - [ ] Add Error handling.
