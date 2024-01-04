@@ -34,7 +34,7 @@ const ExpenseTrackerLineChart = () => {
 	const currentDate = new Date();
 
 	const data: ChartData[] = useMemo(() => {
-		const result = Array.from({length: 31}, (_, i) => {
+		return Array.from({length: 31}, (_, i) => {
 			const dayOfMonth = (i + 1).toString();
 			const filteredExpenses = expenses.filter(
 				(expense) => isSameMonth(expense.date, currentDate) && parseDate(expense.date).day === i + 1
@@ -52,8 +52,6 @@ const ExpenseTrackerLineChart = () => {
 				income: incomeAmount
 			};
 		});
-
-		return result;
 	}, [expenses, income, currentDate]);
 
 	return (
