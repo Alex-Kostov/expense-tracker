@@ -1,21 +1,64 @@
-import React from "react";
-import {CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import React, {useEffect, useMemo} from "react";
+import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {useDispatch, useSelector} from "react-redux";
+import {StoreState} from "../store/store.ts";
+import {fetchTransactions} from "../store/transactionsReducer.ts";
+import {ThunkDispatch} from "@reduxjs/toolkit";
+
+interface ChartData {
+	name: string;
+	expenses: number;
+	income: number;
+}
+
+const parseDate = (dateString: string) => {
+	const [day, month] = dateString.split("/").map(Number);
+	return {day, month};
+};
+
+const isSameMonth = (dateString: string, currentDate: Date) => {
+	const {month} = parseDate(dateString);
+	return currentDate.getMonth() + 1 === month;
+};
 
 const ExpenseTrackerLineChart = () => {
-		const data = [];
+	const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+	const expenses = useSelector((state: StoreState) => state.transactions.expenses);
+	const income = useSelector((state: StoreState) => state.transactions.income);
 
-		for (let day = 1; day <= 31; day++) {
-			const randomExpense = parseFloat((Math.random() * 1000).toFixed(2));
-			const randomIncome = parseFloat((Math.random() * 1000).toFixed(2));
-			data.push({
-				"name": day.toString(),
-				"expenses": randomExpense,
-				"income": randomIncome
-			});
-		}
+	useEffect(() => {
+		dispatch(fetchTransactions("expense"));
+		dispatch(fetchTransactions("income"));
+	}, [dispatch]);
 
-		return (
-			<LineChart width={1200} height={350} data={data}>
+	const currentDate = new Date();
+
+	const data: ChartData[] = useMemo(() => {
+		const result = Array.from({length: 31}, (_, i) => {
+			const dayOfMonth = (i + 1).toString();
+			const filteredExpenses = expenses.filter(
+				(expense) => isSameMonth(expense.date, currentDate) && parseDate(expense.date).day === i + 1
+			);
+			const filteredIncome = income.filter(
+				(incomeAmount) => isSameMonth(incomeAmount.date, currentDate) && parseDate(incomeAmount.date).day === i + 1
+			);
+
+			const expenseAmount = filteredExpenses.reduce((total, expense) => total + expense.amount, 0);
+			const incomeAmount = filteredIncome.reduce((total, income) => total + income.amount, 0);
+
+			return {
+				name: dayOfMonth,
+				expenses: expenseAmount,
+				income: incomeAmount
+			};
+		});
+
+		return result;
+	}, [expenses, income, currentDate]);
+
+	return (
+		<ResponsiveContainer width="95%" height={300}>
+			<LineChart data={data}>
 				<CartesianGrid strokeDasharray="3 3"/>
 				<XAxis dataKey="name"/>
 				<YAxis/>
@@ -24,8 +67,8 @@ const ExpenseTrackerLineChart = () => {
 				<Line type="monotone" dataKey="expenses" stroke="red"/>
 				<Line type="monotone" dataKey="income" stroke="green"/>
 			</LineChart>
-		);
-	}
-;
+		</ResponsiveContainer>
+	);
+};
 
 export default ExpenseTrackerLineChart;

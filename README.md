@@ -16,14 +16,14 @@ git clone https://github.com/Alex-Kostov/expense-tracker.git
 ```
 - Install server dependencies
 ```
-cd expense-tracker/apps/server
+cd expense-tracker\apps\server
 npm install
 npm install -g typescript # if you don't have it.
 ```
 - Install client dependencies
 ```
-cd expense-tracker/apps/client
-npm run install
+cd expense-tracker\apps\client
+npm install
 ```
 - Create and populate database
 ```
@@ -50,7 +50,9 @@ npm run dev
 - [ ] Connect dashboard chart
 - [ ] Add Vaults Page
 - [ ] Add Categories Page
+- [ ] Add Error handling.
+- [ ] Add build prod command.
 - [ ] Add Investments Page
-- [ ] Add Currencies to the App.
+- [ ] Add Currencies to the App
 - [ ] Redesign, styling update
 
